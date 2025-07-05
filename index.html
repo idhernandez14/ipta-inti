@@ -1,0 +1,84 @@
+<!-- index.html - Login principal del sistema IPTA-INTI -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Iniciar Sesión | IPTA-INTI</title>
+  
+  <!-- Estilos generales -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/login.css">
+</head>
+<body>
+  <div class="login-bg">
+    
+    <!-- Encabezado con logo y bienvenida -->
+    <div class="login-header">
+      <img src="assets/img/logo-icon.png" alt="Logo dorado de IPTA-INTI" class="login-logo" />
+      <h1 class="login-title">IPTA-INTI</h1>
+      <h2 class="login-subtitle">Bienvenido</h2>
+    </div>
+
+    <!-- Formulario principal -->
+    <main class="login-main">
+      <form class="login-form-glass" autocomplete="off" onsubmit="login(event)" novalidate>
+        <h2>Inicia Sesión</h2>
+        
+        <!-- Campo de usuario -->
+        <label for="usuario" class="login-label">Usuario</label>
+        <input id="usuario" name="usuario" class="input" type="text" required autocomplete="off">
+        
+        <!-- Campo de contraseña -->
+        <label for="contrasena" class="login-label">Contraseña</label>
+        <input id="contrasena" name="contrasena" class="input" type="password" required autocomplete="off">
+        
+        <!-- Selección de rol -->
+        <label for="rol" class="login-label">Rol</label>
+        <select id="rol" name="rol" class="input" required>
+          <option value="" disabled selected>Selecciona tu rol</option>
+          <option value="Administrador">Administrador</option>
+          <option value="Cajero">Cajero</option>
+          <option value="Vendedor">Vendedor</option>
+          <option value="Bodeguero">Bodeguero</option>
+          <option value="Auditor">Auditor</option>
+        </select>
+
+        <!-- Botón para iniciar sesión -->
+        <button type="submit" class="btn btn-login">Entrar</button>
+
+        <!-- Mensaje de error -->
+        <p id="error-msg" class="login-error" style="display:none;"></p>
+
+        <!-- Acceso rápido (pruebas) -->
+        <button type="button" class="btn btn-directo" onclick="loginDirectoAdmin()">Ir al Dashboard sin Iniciar Sesión</button>
+      </form>
+
+      <!-- Enlace a registro -->
+      <a href="register.html" style="margin-top:1rem;display:block;text-align:center;color:var(--color-verde);">
+        ¿No tienes cuenta? Regístrate aquí
+      </a>
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="login-footer">
+      <img src="assets/img/footer-icon-1.png" alt="Ícono decorativo de footer" class="footer-icon">
+      <img src="assets/img/footer-icon-2.png" alt="Ícono decorativo de footer" class="footer-icon">
+      <p>© 2025 Iván David Hernández - Proyecto IPTA-INTI</p>
+    </footer>
+  </div>
+
+  <!-- Script de validación de login -->
+  <script src="js/login.js"></script>
+
+  <!-- Acceso rápido al Dashboard (modo prueba/demo) -->
+  <script>
+    function loginDirectoAdmin() {
+      // Simula sesión como administrador (uso para pruebas)
+      localStorage.setItem("usuario", "admin_demo");
+      localStorage.setItem("rolActivo", "Administrador");
+      window.location.href = "html/dashboard.html";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+/* ventas.css - Estilos para módulo de ventas/caja */
+.main-content-flex {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: flex-start;
+}
+#ventasPanel {
+  flex: 2;
+  min-width: 450px;
+}
+.factura-lateral {
+  flex: 1;
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 0 12px rgba(0,0,0,0.10);
+  margin-left: 2rem;
+  min-width: 350px;
+  display: none;
+}
+.factura-lateral-content {
+  font-family: 'Roboto Slab', monospace;
+  font-size: 1rem;
+}
+.tabla-venta th, .tabla-venta td {
+  padding: 8px;
+  text-align: center;
+  border: 1px solid var(--color-gris);
+}
+.tabla-venta thead {
+  background: var(--color-verde);
+  color: white;
+}
+#btnEfectivo, #btnTarjeta {
+  width: auto;
+  margin-right: 8px;
+  padding: 0.4em 1.2em;
+}
+#btnEfectivo.selected, #btnTarjeta.selected {
+  background: var(--color-verde);
+  color: #fff;
+}
+@media (max-width: 950px) {
+  .main-content-flex {
+    flex-direction: column;
+  }
+  .factura-lateral {
+    margin-left: 0;
+    margin-top: 1.5rem;
+    min-width: unset;
+  }
+}

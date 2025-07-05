@@ -1,0 +1,97 @@
+<!-- promociones.html - Gestión de Promociones IPTA-INTI -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promociones | IPTA-INTI</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/promociones.css">
+  <script src="../js/roles.js" defer></script>
+  <script src="../js/promociones.js" defer></script>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="top-bar">
+    <div class="project-header">
+      <img src="../assets/img/logo-icon.png" alt="Icono IPTA-INTI" class="logo-icon" style="width: 50px;">
+      <h1 class="project-title">IPTA-INTI</h1>
+    </div>
+    <!-- Usuario y rol actual -->
+    <div style="text-align: right; margin-right: 2rem; font-weight: bold;">
+      Usuario: <span id="usuario"></span> | Rol: <span id="rol"></span>
+      <button onclick="cerrarSesion()" class="btn btn-secundario" style="margin-left:1rem;">Cerrar sesión</button>
+    </div>
+  </header>
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="logo">
+      <img src="../assets/img/logo-inti.png" alt="Logo IPTA-INTI" style="width: 60px;">
+      <h2>IPTA-INTI</h2>
+    </div>
+    <ul>
+      <li><a href="dashboard.html">Inicio</a></li>
+      <li><a href="clientes.html">Clientes</a></li>
+      <li><a href="ventas.html">Ventas</a></li>
+      <li><a href="empleados.html">Empleados</a></li>
+      <li><a href="proveedores.html">Proveedores</a></li>
+      <li><a href="promociones.html" class="active">Promociones</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="inventario.html">Inventario</a></li>
+      <li><a href="seguridad.html">Seguridad</a></li>
+      <li><a href="../index.html">Salir</a></li>
+    </ul>
+  </nav>
+  <!-- PANEL DE PROMOCIONES -->
+  <main class="main-content">
+    <div class="panel" data-role="Vendedor" id="promocionesPanel">
+      <h2>Gestión de Promociones</h2>
+      <!-- Formulario de promoción -->
+      <form id="formPromocion" class="panel" style="background: #f9f9f9; text-align:left;">
+        <input type="hidden" id="idPromocion">
+        <label for="nombrePromo">Nombre de la promoción:</label>
+        <input type="text" id="nombrePromo" class="input" required>
+        <label for="descripcionPromo">Descripción:</label>
+        <input type="text" id="descripcionPromo" class="input" required>
+        <label for="descuentoPromo">Descuento (%):</label>
+        <input type="number" id="descuentoPromo" class="input" min="0" max="100" required>
+        <button type="submit" class="btn">Agregar Promoción</button>
+      </form>
+      <!-- Buscador -->
+      <div style="margin-bottom: 1rem; display: flex; justify-content: flex-end;">
+        <input
+          type="text"
+          id="buscarPromocion"
+          class="input"
+          placeholder="Buscar por nombre o descripción..."
+          style="max-width:320px;"
+          oninput="filtrarPromociones()"
+        >
+      </div>
+      <!-- Tabla de promociones -->
+      <h3 style="margin-top: 1rem;">Promociones Activas</h3>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <thead>
+          <tr style="background: var(--color-verde); color: white;">
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Descuento (%)</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tablaPromociones">
+          <!-- Generado con JS -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+  <!-- FOOTER -->
+  <footer class="bottom-bar">
+    <p>© 2025 Iván David Hernández - Proyecto IPTA-INTI</p>
+    <div class="footer-icons">
+      <img src="../assets/img/footer-icon-1.png" alt="Icono decorativo 1" style="width: 30px;">
+      <img src="../assets/img/footer-icon-2.png" alt="Icono decorativo 2" style="width: 30px;">
+    </div>
+  </footer>
+</body>
+</html>

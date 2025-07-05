@@ -1,0 +1,36 @@
+/* productos.css - Estilos para módulo de productos IPTA-INTI */
+#productosPanel .panel {
+  background: #f9f9f9;
+}
+#productosPanel table th {
+  background: var(--color-verde);
+  color: white;
+}
+#productosPanel table td {
+  text-align: center;
+}
+#productosPanel .btn {
+  background: var(--color-verde);
+  color: #fff;
+}
+#productosPanel .btn:hover {
+  background: var(--color-dorado);
+  color: #003220;
+}
+@media (max-width: 700px) {
+  #productosPanel table, #productosPanel th, #productosPanel td {
+    font-size: 0.97em;
+  }
+}
+#productosPanel .btn[style*="#FF6347"] {
+  border: 1.5px solid #FF6347;
+}
+#productosPanel .btn[style*="#D4AF37"] {
+  border: 1.5px solid #D4AF37;
+}
+#productosPanel input[type="text"], #productosPanel input[type="number"] {
+  margin-bottom: 0.5rem;
+}
+#productosPanel table tr:hover td {
+  background: #fff8e7;
+}

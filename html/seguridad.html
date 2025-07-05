@@ -1,0 +1,124 @@
+<!-- seguridad.html - Gestión de Seguridad y Permisos IPTA-INTI -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seguridad | IPTA-INTI</title>
+
+  <!-- Estilos base y específicos -->
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/seguridad.css">
+
+  <!-- Scripts con control de roles y funcionalidad JS -->
+  <script src="../js/roles.js" defer></script>
+  <script src="../js/seguridad.js" defer></script>
+</head>
+<body>
+  <!-- HEADER SUPERIOR -->
+  <header class="top-bar">
+    <div class="project-header">
+      <img src="../assets/img/logo-icon.png" alt="Icono IPTA-INTI" class="logo-icon" style="width: 50px;">
+      <h1 class="project-title">IPTA-INTI</h1>
+    </div>
+    <div style="text-align: right; margin-right: 2rem; font-weight: bold;">
+      Usuario: <span id="usuario"></span> | Rol: <span id="rol"></span>
+      <button onclick="cerrarSesion()" class="btn btn-secundario" style="margin-left:1rem;">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <!-- MENÚ LATERAL DE NAVEGACIÓN -->
+  <nav class="sidebar">
+    <div class="logo">
+      <img src="../assets/img/logo-inti.png" alt="Logo IPTA-INTI" style="width: 60px;">
+      <h2>IPTA-INTI</h2>
+    </div>
+    <ul>
+      <li><a href="dashboard.html">Inicio</a></li>
+      <li><a href="clientes.html">Clientes</a></li>
+      <li><a href="ventas.html">Ventas</a></li>
+      <li><a href="empleados.html">Empleados</a></li>
+      <li><a href="proveedores.html">Proveedores</a></li>
+      <li><a href="promociones.html">Promociones</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="inventario.html">Inventario</a></li>
+      <li><a href="seguridad.html" class="active">Seguridad</a></li>
+      <li><a href="../index.html">Salir</a></li>
+    </ul>
+  </nav>
+
+  <!-- PANEL PRINCIPAL DE SEGURIDAD -->
+  <main class="main-content">
+    <div class="panel" data-role="Auditor,Administrador" id="seguridadPanel">
+      <h2>Gestión de Seguridad y Permisos</h2>
+
+      <!-- FORMULARIO DE USUARIOS -->
+      <form id="formUsuario" class="panel" style="background:#f9f9f9; text-align:left;">
+        <input type="hidden" id="idUsuario">
+
+        <label for="nombre">Nombre de usuario:</label>
+        <input type="text" id="nombre" class="input" required>
+
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" class="input" required>
+
+        <label for="rol">Rol asignado:</label>
+        <select id="rol" class="input" required>
+          <option value="Administrador">Administrador</option>
+          <option value="Cajero">Cajero</option>
+          <option value="Bodeguero">Bodeguero</option>
+          <option value="Auditor">Auditor</option>
+          <option value="Vendedor">Vendedor</option>
+        </select>
+
+        <label for="estado">Estado:</label>
+        <select id="estado" class="input" required>
+          <option value="activo">Activo</option>
+          <option value="inactivo">Inactivo</option>
+        </select>
+
+        <button type="submit" class="btn">Agregar Usuario</button>
+      </form>
+
+      <!-- BÚSQUEDA DE USUARIOS -->
+      <div style="margin: 1rem 0 0.5rem 0; display: flex; justify-content: flex-end;">
+        <input 
+          type="text"
+          id="buscarUsuario"
+          class="input"
+          placeholder="Buscar por nombre, rol o estado..."
+          style="max-width:320px;"
+          oninput="filtrarUsuarios()"
+        >
+      </div>
+
+      <!-- TABLA DE USUARIOS REGISTRADOS -->
+      <h3 style="margin-top: 1rem;">Usuarios Registrados</h3>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <thead>
+          <tr style="background: var(--color-verde); color: white;">
+            <th>Nombre</th>
+            <!-- <th>Contraseña</th> --> <!-- opcional, no se recomienda mostrar -->
+            <th>Rol</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tablaUsuarios">
+          <!-- Contenido generado dinámicamente desde seguridad.js -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="bottom-bar">
+    <p>© 2025 Iván David Hernández - Proyecto IPTA-INTI</p>
+    <div class="footer-icons">
+      <img src="../assets/img/footer-icon-1.png" alt="Icono decorativo 1" style="width: 30px;">
+      <img src="../assets/img/footer-icon-2.png" alt="Icono decorativo 2" style="width: 30px;">
+    </div>
+  </footer>
+</body>
+</html>

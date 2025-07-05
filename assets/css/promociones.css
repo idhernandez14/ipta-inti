@@ -1,0 +1,31 @@
+/* promociones.css - Estilos para módulo de promociones IPTA-INTI */
+#promocionesPanel .panel {
+  background: #f9f9f9;
+}
+#promocionesPanel table th {
+  background: var(--color-verde);
+  color: white;
+}
+#promocionesPanel table td {
+  text-align: center;
+}
+#promocionesPanel .btn {
+  background: var(--color-verde);
+  color: #fff;
+}
+#promocionesPanel .btn:hover {
+  background: var(--color-dorado);
+  color: #003220;
+}
+@media (max-width: 700px) {
+  #promocionesPanel table, #promocionesPanel th, #promocionesPanel td {
+    font-size: 0.97em;
+  }
+}
+#promocionesPanel table tr:hover td {
+  background: #fff8e7;
+  transition: background 0.2s;
+}
+#promocionesPanel input[type="text"], #promocionesPanel input[type="number"] {
+  margin-bottom: 0.5rem;
+}

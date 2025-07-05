@@ -1,0 +1,39 @@
+/* empleados.css - Estilos para módulo de empleados IPTA-INTI */
+#empleadosPanel .panel {
+  background: #f9f9f9;
+}
+#empleadosPanel table th {
+  background: var(--color-verde);
+  color: white;
+}
+#empleadosPanel table td {
+  text-align: center;
+}
+#empleadosPanel .btn {
+  background: var(--color-verde);
+  color: #fff;
+}
+#empleadosPanel .btn:hover {
+  background: var(--color-dorado);
+  color: #003220;
+}
+@media (max-width: 700px) {
+  #empleadosPanel table, #empleadosPanel th, #empleadosPanel td {
+    font-size: 0.97em;
+  }
+}
+/* Estilo para el buscador de empleados */
+#buscarEmpleado {
+  padding: 0.5em 1em;
+  border-radius: 8px;
+  border: 1.5px solid var(--color-verde);
+  outline: none;
+  font-size: 1em;
+  margin-bottom: 8px;
+  background: #fff;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+#buscarEmpleado:focus {
+  border: 1.5px solid var(--color-dorado);
+  box-shadow: 0 0 0 2px #d4af3740;
+}

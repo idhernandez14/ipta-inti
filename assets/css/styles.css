@@ -1,0 +1,47 @@
+/* styles.css - Estilos globales, paleta y utilidades */
+/* Paleta institucional IPTA-INTI */  
+:root {
+  --color-verde: #50C878;
+  --color-dorado: #D4AF37;
+  --color-terracota: #E2725B;
+  --color-negro: #000000;
+  --color-azul: #0044FF;
+  --color-turquesa: #40E0D0;
+  --color-gris: #E0E0E0;
+  --color-rojo: #FF6347;
+  --color-fondo: linear-gradient(120deg, #ffe8b2 0%, #d4af37 100%);
+  --glass-bg: linear-gradient(135deg, #50c878c7 10%, #eaf7f090 80%);
+  --color-texto: #333;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Quicksand', 'Roboto Slab', sans-serif; background: var(--color-fondo); color: var(--color-texto);}
+a { color: var(--color-verde); text-decoration: none; }
+input, select, textarea { font-family: inherit; }
+button:focus, input:focus, select:focus { outline: 2px solid var(--color-dorado); }
+h1, h2, h3, h4, h5 { font-family: 'Roboto Slab', serif; letter-spacing: 1px; }
+footer, .bottom-bar { margin-top: 2rem; background: #fff8e2; border-top: 1px solid var(--color-dorado); text-align: center; padding: 0.6rem 0; }
+/* Botones */
+.btn { background: #003220; border: none; padding: 0.75rem; color: var(--color-dorado); border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; }
+.btn:hover { background: #45b06d; }
+/* Tablas base */
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+th, td { padding: 8px; border: 1px solid var(--color-gris); text-align: center; }
+thead { background: var(--color-verde); color: white; }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+/* Barra lateral */
+.sidebar { background: #fff; width: 220px; min-height: 100vh; position: fixed; top: 0; left: 0; border-right: 1px solid var(--color-gris); padding-top: 2.5rem; }
+.sidebar .logo { display: flex; flex-direction: column; align-items: center; margin-bottom: 2rem; }
+.sidebar .logo img { margin-bottom: 0.5rem; }
+.sidebar ul { list-style: none; padding-left: 0; }
+.sidebar ul li { margin: 0.5rem 0; }
+.sidebar ul li a { display: block; padding: 0.6rem 1.2rem; border-radius: 7px; color: var(--color-negro); transition: background 0.2s; }
+.sidebar ul li a.active, .sidebar ul li a:hover { background: var(--color-verde); color: white; }
+/* Contenido principal */
+.main-content { margin-left: 240px; padding: 2.5rem 2rem 1.5rem 2rem; min-height: 90vh; }
+.panel { background: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.06); padding: 2rem; margin-bottom: 1.5rem;}
+/* Otros */
+.footer-icons { margin-top: 0.5rem; }
+.footer-icons img { margin: 0 2px; }
+::-webkit-scrollbar { width: 8px; background: #fff3; }
+::-webkit-scrollbar-thumb { background: var(--color-dorado); border-radius: 8px; }

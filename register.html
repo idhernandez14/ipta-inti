@@ -1,0 +1,89 @@
+<!-- register.html - Registro de usuario IPTA-INTI -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registro | IPTA-INTI</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/login.css">
+</head>
+<body>
+  <div class="login-bg">
+    <div class="login-header">
+      <img src="assets/img/logo-icon.png" alt="Logo dorado" class="login-logo" />
+      <h1 class="login-title">IPTA-INTI</h1>
+      <h2 class="login-subtitle">Registro</h2>
+    </div>
+    <main class="login-main">
+      <form class="login-form-glass" autocomplete="off" onsubmit="registrarUsuario(event)">
+        <label for="nombre" class="login-label">Nombre completo</label>
+        <input id="nombre" name="nombre" class="input" type="text" required>
+        <label for="usuario" class="login-label">Nombre de usuario</label>
+        <input id="usuario" name="usuario" class="input" type="text" required>
+        <label for="contrasena" class="login-label">Contraseña</label>
+        <input id="contrasena" name="contrasena" class="input" type="password" required>
+        <label for="rol" class="login-label">Rol de acceso</label>
+        <select id="rol" class="input" required>
+          <option value="" disabled selected>Selecciona un rol</option>
+          <option value="Administrador">Administrador</option>
+          <option value="Bodeguero">Bodeguero</option>
+          <option value="Cajero">Cajero</option>
+          <option value="Vendedor">Vendedor</option>
+          <option value="Auditor">Auditor</option>
+        </select>
+        <p id="msg" class="login-error" style="display:none;"></p>
+        <button type="submit" class="btn btn-login">Registrarse</button>
+      </form>
+      <a href="index.html" style="margin-top:1rem;display:block;text-align:center;color:var(--color-verde);">Volver al Login</a>
+    </main>
+    <footer class="login-footer">
+      <img src="assets/img/footer-icon-1.png" alt="icono footer" class="footer-icon">
+      <img src="assets/img/footer-icon-2.png" alt="icono footer" class="footer-icon">
+      <p>© 2025 Iván David Hernández - Proyecto IPTA-INTI</p>
+    </footer>
+  </div>
+  <script>
+    // Lógica profesional: enviar al backend vía fetch/AJAX
+    function registrarUsuario(event) {
+      event.preventDefault();
+      const nombre = document.getElementById("nombre").value.trim();
+      const usuario = document.getElementById("usuario").value.trim();
+      const contrasena = document.getElementById("contrasena").value.trim();
+      const rol = document.getElementById("rol").value;
+      const msg = document.getElementById("msg");
+      msg.style.display = "none";
+
+      if (!nombre || !usuario || !contrasena || !rol) {
+        msg.style.display = "block";
+        msg.style.color = "#FF6347";
+        msg.textContent = "Por favor, completa todos los campos.";
+        return;
+      }
+
+      fetch("backend/register.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre, usuario, contrasena, rol })
+      })
+      .then(res => res.json())
+      .then(data => {
+        msg.style.display = "block";
+        if (data.success) {
+          msg.style.color = "green";
+          msg.textContent = "Registro exitoso. Ahora puedes iniciar sesión.";
+          event.target.reset();
+        } else {
+          msg.style.color = "#FF6347";
+          msg.textContent = data.error || "No se pudo registrar el usuario.";
+        }
+      })
+      .catch(() => {
+        msg.style.display = "block";
+        msg.style.color = "#FF6347";
+        msg.textContent = "Error de conexión con el servidor.";
+      });
+    }
+  </script>
+</body>
+</html>

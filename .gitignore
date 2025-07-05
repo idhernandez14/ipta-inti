@@ -1,0 +1,16 @@
+node_modules/
+dist/
+build/
+*.log
+*.tmp
+.vscode/
+.idea/
+.gradle/
+*.zip
+*.rar
+*.class
+*.jar
+*.bak
+.DS_Store
+Thumbs.db
+

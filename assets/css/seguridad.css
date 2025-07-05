@@ -1,0 +1,31 @@
+/* seguridad.css - Estilos para módulo de seguridad IPTA-INTI */
+#seguridadPanel .panel {
+  background: #f9f9f9;
+}
+#seguridadPanel table th {
+  background: var(--color-verde);
+  color: white;
+}
+#seguridadPanel table td {
+  text-align: center;
+}
+#seguridadPanel .btn {
+  background: var(--color-verde);
+  color: #fff;
+}
+#seguridadPanel .btn:hover {
+  background: var(--color-dorado);
+  color: #003220;
+}
+@media (max-width: 700px) {
+  #seguridadPanel table, #seguridadPanel th, #seguridadPanel td {
+    font-size: 0.97em;
+  }
+}
+#seguridadPanel table tr:hover td {
+  background: #fff8e7;
+  transition: background 0.2s;
+}
+#seguridadPanel input[type="text"], #seguridadPanel select {
+  margin-bottom: 0.5rem;
+}

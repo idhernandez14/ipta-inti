@@ -1,0 +1,128 @@
+/* login.css - Estilos exclusivos de Login y Registro IPTA-INTI */
+
+/* Fondo principal con efecto glass */
+.login-bg {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--glass-bg);
+}
+
+/* Encabezado del login */
+.login-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Logo en la parte superior del formulario */
+.login-logo {
+  width: 72px;
+  margin-bottom: 1rem;
+}
+
+/* Título dorado llamativo */
+.login-title {
+  color: var(--color-dorado);
+  letter-spacing: 2px;
+  font-size: 2.2rem;
+}
+
+/* Subtítulo en verde */
+.login-subtitle {
+  color: var(--color-verde);
+  font-size: 1.25rem;
+}
+
+/* Contenedor principal del login */
+.login-main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Formulario con efecto glass */
+.login-form-glass {
+  background: rgba(255,255,255,0.25);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  padding: 2.5rem;
+  max-width: 370px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Etiquetas de los inputs */
+.login-label {
+  font-weight: bold;
+  color: var(--color-negro);
+  margin-top: 0.5em;
+}
+
+/* Inputs de usuario, contraseña y select */
+.input {
+  display: block;
+  width: 100%;
+  margin-bottom: 1em;
+  border-radius: 7px;
+  padding: 0.6em 0.7em;
+  border: 1px solid var(--color-gris);
+  background: #f9f9f9;
+}
+
+/* Botón de inicio de sesión */
+.btn-login {
+  background: var(--color-verde);
+  color: #fff;
+  margin-bottom: 0.7rem;
+  transition: background 0.2s;
+}
+.btn-login:hover {
+  background: var(--color-dorado);
+  color: var(--color-negro);
+}
+
+/* Botón de acceso directo */
+.btn-directo {
+  background: var(--color-terracota);
+  color: white;
+  margin-bottom: 0.7rem;
+  transition: background 0.2s;
+}
+.btn-directo:hover {
+  background: var(--color-dorado);
+  color: var(--color-negro);
+}
+
+/* Mensaje de error */
+.login-error {
+  color: var(--color-rojo);
+  background: #ffe6e6;
+  border-radius: 5px;
+  margin: 0.5em 0;
+  text-align: center;
+  padding: 0.3em 0;
+  font-weight: 500;
+}
+
+/* Footer del login */
+.login-footer {
+  margin-top: 2rem;
+  text-align: center;
+}
+.footer-icon {
+  width: 32px;
+  margin: 0 4px;
+}
+
+/* Responsive: formulario login centrado y ajustado en móviles */
+@media (max-width: 480px) {
+  .login-form-glass {
+    padding: 1.2rem;
+    max-width: 98vw;
+  }
+  .login-title { font-size: 1.3rem; }
+  .login-subtitle { font-size: 1rem; }
+}

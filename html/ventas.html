@@ -1,0 +1,128 @@
+<!-- ventas.html - Módulo Caja Registradora (POS) del sistema IPTA-INTI -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Caja Registradora | IPTA-INTI</title>
+
+  <!-- Estilos base y específicos -->
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/ventas.css">
+
+  <!-- Scripts de control de sesión y lógica de ventas -->
+  <script src="../js/roles.js" defer></script>
+  <script src="../js/logicadecaja.js" defer></script>
+</head>
+<body>
+  <!-- HEADER SUPERIOR -->
+  <header class="top-bar">
+    <div class="project-header">
+      <img src="../assets/img/logo-icon.png" alt="Icono IPTA-INTI" style="width: 50px;">
+      <h1 class="project-title">IPTA-INTI</h1>
+    </div>
+    <div style="text-align: right; margin-right: 2rem; font-weight: bold;">
+      Usuario: <span id="usuario"></span> | Rol: <span id="rol"></span>
+      <button onclick="cerrarSesion()" class="btn btn-secundario" style="margin-left:1rem;">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <!-- SIDEBAR DE NAVEGACIÓN -->
+  <nav class="sidebar">
+    <div class="logo">
+      <img src="../assets/img/logo-inti.png" alt="Logo IPTA-INTI" style="width: 60px;">
+      <h2>IPTA-INTI</h2>
+    </div>
+    <ul>
+      <li><a href="dashboard.html">Inicio</a></li>
+      <li><a href="clientes.html">Clientes</a></li>
+      <li><a href="ventas.html" class="active">Ventas</a></li>
+      <li><a href="empleados.html">Empleados</a></li>
+      <li><a href="proveedores.html">Proveedores</a></li>
+      <li><a href="promociones.html">Promociones</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="inventario.html">Inventario</a></li>
+      <li><a href="seguridad.html">Seguridad</a></li>
+      <li><a href="../index.html">Salir</a></li>
+    </ul>
+  </nav>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="main-content main-content-flex">
+    <!-- Panel izquierdo: punto de venta -->
+    <section class="panel" data-role="Cajero,Administrador" id="ventasPanel">
+      <h2 style="text-align:center;">Caja Registradora</h2>
+
+      <!-- Selector de cliente -->
+      <div style="margin-bottom: 1em;">
+        <label for="selectorCliente" style="font-weight:bold;">Cliente:</label>
+        <select id="selectorCliente" class="input"></select>
+        <div id="resumenCliente" style="margin:0.5em 0;color:#003220;"></div>
+      </div>
+
+      <!-- Formulario para agregar producto -->
+      <form id="formAgregarProducto" class="panel panel-form" style="background: #fff; text-align: left; max-width:500px;margin:auto;">
+        <h3>Agregar Producto Manual</h3>
+        <label for="codigoProducto">Código de barras:</label>
+        <input type="text" id="codigoProducto" class="input" placeholder="Ej: 123456789012" required autocomplete="off" />
+
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" class="input" min="1" value="1" required />
+
+        <button type="submit" class="btn">Agregar a la venta</button>
+      </form>
+
+      <!-- Tabla de productos agregados -->
+      <h3 style="margin-top:2em;">Productos en la Venta</h3>
+      <table class="tabla-venta">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad<br><span style="font-weight:normal;font-size:0.9em;">Stock</span></th>
+            <th>Descuento (%)</th>
+            <th>Subtotal</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody id="tablaVenta">
+          <!-- Dinámico desde logicadecaja.js -->
+        </tbody>
+      </table>
+
+      <!-- Descuento global -->
+      <div style="margin:1em 0;text-align:right;">
+        <button class="btn btn-secundario" id="btnDescuentoGlobal" style="width:auto;background:var(--color-dorado);color:#333;">Descuento Global Venta</button>
+      </div>
+
+      <!-- Totales y método de pago -->
+      <div style="margin-top: 1rem; text-align: right;">
+        <h3>Total: $<span id="totalVenta">0</span></h3>
+
+        <div style="margin-bottom: 1rem; text-align: right;">
+          <label style="margin-right: 10px; font-weight: bold;">Método de Pago:</label>
+          <button type="button" class="btn" id="btnEfectivo">Efectivo</button>
+          <button type="button" class="btn" id="btnTarjeta" style="background: var(--color-dorado); color: #333;">Tarjeta</button>
+          <span id="metodoPagoSeleccionado" style="margin-left: 1rem; font-weight: bold; color: var(--color-verde);"></span>
+        </div>
+
+        <button class="btn" onclick="finalizarVenta()">Finalizar Venta</button>
+        <button class="btn btn-secundario" onclick="cancelarVenta()" style="background: var(--color-terracota); color: white;">Cancelar</button>
+      </div>
+    </section>
+
+    <!-- Factura lateral dinámica -->
+    <aside id="facturaLateral" class="factura-lateral"></aside>
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="bottom-bar">
+    <p>© 2025 Iván David Hernández - Proyecto IPTA-INTI</p>
+    <div class="footer-icons">
+      <img src="../assets/img/footer-icon-1.png" alt="Icono decorativo 1" style="width: 30px;">
+      <img src="../assets/img/footer-icon-2.png" alt="Icono decorativo 2" style="width: 30px;">
+    </div>
+  </footer>
+</body>
+</html>

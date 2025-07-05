@@ -1,0 +1,32 @@
+/* proveedores.css - Estilos para módulo de proveedores IPTA-INTI */
+#proveedoresPanel .panel {
+  background: #f9f9f9;
+}
+#proveedoresPanel table th {
+  background: var(--color-verde);
+  color: white;
+}
+#proveedoresPanel table td {
+  text-align: center;
+}
+#proveedoresPanel .btn {
+  background: var(--color-verde);
+  color: #fff;
+}
+#proveedoresPanel .btn:hover {
+  background: var(--color-dorado);
+  color: #003220;
+}
+@media (max-width: 700px) {
+  #proveedoresPanel table, #proveedoresPanel th, #proveedoresPanel td {
+    font-size: 0.97em;
+  }
+}
+#proveedoresPanel table tr:hover td {
+  background: #fff8e7;
+  transition: background 0.2s;
+}
+#proveedoresPanel input[type="text"], #proveedoresPanel input[type="email"] {
+  margin-bottom: 0.5rem;
+}
+   

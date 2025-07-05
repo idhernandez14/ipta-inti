@@ -1,0 +1,76 @@
+/* dashboard.css - Estilos para el módulo Dashboard de IPTA-INTI */
+
+/* Contenedor principal */
+.main-content {
+  margin-left: 240px; /* Compensación para el sidebar */
+  padding: 2.5rem 2rem 1.5rem 2rem;
+  min-height: 90vh;
+}
+
+/* Panel principal del dashboard */
+#dashboardPanel {
+  border: 2px solid var(--color-verde);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Paneles interiores */
+.panel {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+/* Estilos generales para los gráficos (canvas) */
+canvas {
+  background: #f7f7f7;
+  border-radius: 12px;
+  margin-bottom: 2.2rem;
+  margin-top: 0.8rem;
+  padding: 1rem;
+  box-shadow: 0 0 8px #50c87822; /* Sombra suave en tono verde institucional */
+  max-width: 100%;
+}
+
+/* Tabla de reportes y ventas */
+.tabla-reportes, #tablaVentas table, #tablaReportes table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.tabla-reportes th,
+.tabla-reportes td,
+#tablaVentas th, #tablaVentas td,
+#tablaReportes th, #tablaReportes td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.tabla-reportes th {
+  background-color: var(--color-verde);
+  color: white;
+}
+
+#tablaReportes thead {
+  background-color: var(--color-terracota);
+  color: white;
+}
+
+/* Responsive design para pantallas pequeñas */
+@media (max-width: 850px) {
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+
+  #dashboardPanel {
+    max-width: 100%;
+  }
+
+  .panel {
+    padding: 1rem;
+  }
+}
