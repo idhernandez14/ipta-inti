@@ -141,3 +141,4 @@ function renderizarTablaReportes(reportes) {
     tbody.appendChild(fila);
   });
 }
+
