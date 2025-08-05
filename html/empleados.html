@@ -1,105 +1,117 @@
-<!-- empleados.html - Gestión de Empleados IPTA-INTI -->
+<!-- empleados.html - Módulo de gestión de empleados IPTA-INTI -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Empleados | IPTA-INTI</title>
-  <link rel="stylesheet" href="../assets/css/styles.css">
-  <link rel="stylesheet" href="../assets/css/empleados.css">
-  <script src="../js/roles.js" defer></script>
-  <script src="../js/empleados.js" defer></script>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <link rel="stylesheet" href="../assets/css/empleados.css" />
 </head>
 <body>
-  <!-- HEADER -->
+  <!-- CABECERA -->
   <header class="top-bar">
     <div class="project-header">
-      <img src="../assets/img/logo-icon.png" alt="Icono IPTA-INTI" class="logo-icon" style="width: 50px;">
+      <img src="../assets/img/logo-icon.png" alt="Logo IPTA-INTI" class="logo-icon" style="width: 50px;">
       <h1 class="project-title">IPTA-INTI</h1>
     </div>
-    <!-- Usuario y rol actual -->
-    <div style="text-align: right; margin-right: 2rem; font-weight: bold;">
-      Usuario: <span id="usuario"></span> | Rol: <span id="rol"></span>
-      <button onclick="cerrarSesion()" class="btn btn-secundario" style="margin-left:1rem;">Cerrar sesión</button>
+    <div style="text-align: right; margin-right: 2rem;">
+      Usuario: <span id="usuarioHeader"></span> | Rol: <span id="rol"></span>
+      <button onclick="cerrarSesion()" class="btn-cerrar-sesion">Cerrar sesión</button>
     </div>
   </header>
+
   <!-- SIDEBAR -->
   <nav class="sidebar">
     <div class="logo">
-      <img src="../assets/img/logo-inti.png" alt="Logo IPTA-INTI" style="width: 60px;">
+      <img src="../assets/img/logo-inti.png" alt="Logo" style="width: 60px;">
       <h2>IPTA-INTI</h2>
     </div>
     <ul>
       <li><a href="dashboard.html">Inicio</a></li>
       <li><a href="clientes.html">Clientes</a></li>
       <li><a href="ventas.html">Ventas</a></li>
-      <li><a href="empleados.html"class="active">Empleados</a></li>
+      <li><a href="empleados.html" class="active">Empleados</a></li>
       <li><a href="proveedores.html">Proveedores</a></li>
       <li><a href="promociones.html">Promociones</a></li>
       <li><a href="productos.html">Productos</a></li>
       <li><a href="inventario.html">Inventario</a></li>
-      <li><a href="seguridad.html" >Seguridad</a></li>
+      <li><a href="seguridad.html">Seguridad</a></li>
       <li><a href="../index.html">Salir</a></li>
     </ul>
   </nav>
-  <!-- PANEL DE EMPLEADOS -->
+
+  <!-- CONTENIDO -->
   <main class="main-content">
-    <!-- Cambia los roles permitidos aquí según tu modelo -->
-    <div class="panel" data-role="Administrador" id="empleadosPanel">
-      <h2>Gestión de Empleados</h2>
-      <!-- Formulario de registro/edición de empleados -->
-      <form id="formEmpleado" class="panel" style="background: #f9f9f9; text-align:left;" autocomplete="off">
-        <input type="hidden" id="idEmpleado">
-        <label for="nombreEmpleado">Nombre:</label>
-        <input type="text" id="nombreEmpleado" class="input" required>
-        <label for="cargoEmpleado">Cargo:</label>
-        <input type="text" id="cargoEmpleado" class="input" required>
-        <label for="salarioEmpleado">Salario (COP):</label>
-        <input type="number" id="salarioEmpleado" class="input" min="0" required>
-        <label for="horarioEmpleado">Horario (ej. 9:00-17:00):</label>
-        <input type="text" id="horarioEmpleado" class="input">
-        <label for="tareaEmpleado">Tarea asignada:</label>
-        <input type="text" id="tareaEmpleado" class="input">
-        <button type="submit" class="btn">Registrar Empleado</button>
+    <div id="empleadosPanel" class="panel" data-role="Administrador">
+      <h2 style="color: var(--color-verde);">Gestión de Empleados</h2>
+
+      <!-- FORMULARIO -->
+      <form id="formEmpleado" autocomplete="off">
+        <input type="hidden" id="idEmpleado" />
+
+        <div class="form-group">
+          <label for="nombreEmpleado">Nombre:</label>
+          <input type="text" id="nombreEmpleado" required placeholder="Ej. Luis Pérez" />
+        </div>
+
+        <div class="form-group">
+          <label for="cargoEmpleado">Cargo:</label>
+          <input type="text" id="cargoEmpleado" required placeholder="Ej. Cajero, Supervisor..." />
+        </div>
+
+        <div class="form-group">
+          <label for="salarioEmpleado">Salario:</label>
+          <input type="number" id="salarioEmpleado" required min="0" step="100" placeholder="Ej. 1200000" />
+        </div>
+
+        <button type="submit" class="btn btn-guardar">Guardar</button>
       </form>
-      <!-- Tabla de empleados registrados -->
-      <h3 style="margin-top: 2rem;">Lista de Empleados</h3>
-      <!-- Buscador de empleados -->
-      <div style="margin-bottom: 1rem; display: flex; justify-content: flex-end;">
-        <input 
-          type="text" 
-          id="buscarEmpleado" 
-          class="input" 
-          placeholder="Buscar empleado por nombre, cargo, horario, tarea..."
-          style="max-width: 320px;"
-          oninput="filtrarEmpleados()"
-        >
+
+      <!-- FEEDBACK -->
+      <div id="mensajeFeedback" class="mensaje-feedback"></div>
+
+      <!-- BUSCADOR -->
+      <div id="buscarEmpleado">
+        <label for="buscadorInput">Buscar empleado:</label>
+        <input type="text" id="buscadorInput" placeholder="Filtrar por nombre o cargo..." />
       </div>
-      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+
+      <!-- TABLA -->
+      <table class="tabla-empleados" aria-label="Listado de empleados">
         <thead>
-          <tr style="background: var(--color-verde); color: white;">
+          <tr>
             <th>ID</th>
             <th>Nombre</th>
             <th>Cargo</th>
             <th>Salario</th>
-            <th>Horario</th>
-            <th>Tarea</th>
             <th>Acciones</th>
           </tr>
         </thead>
-        <tbody id="tablaEmpleados">
-          <!-- Empleados generados dinámicamente con JS -->
+        <tbody id="cuerpoTablaEmpleados">
+          <!-- Se llena dinámicamente -->
         </tbody>
       </table>
     </div>
   </main>
-  <!-- FOOTER -->
+
+  <!-- PIE -->
   <footer class="bottom-bar">
-    <p>© 2025 Iván David Hernández - Proyecto IPTA-INTI</p>
-    <div class="footer-icons">
-      <img src="../assets/img/footer-icon-1.png" alt="Icono decorativo 1" style="width: 30px;">
-      <img src="../assets/img/footer-icon-2.png" alt="Icono decorativo 2" style="width: 30px;">
-    </div>
+    <p>&copy; 2025 Iván David Hernández - Proyecto IPTA-INTI</p>
   </footer>
+
+  <!-- SCRIPTS -->
+  <script src="../js/roles.js"></script>
+  <script src="../js/empleados.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const usuario = localStorage.getItem("usuario") || "Usuario";
+      document.getElementById("usuarioHeader").textContent = usuario;
+    });
+
+    function cerrarSesion() {
+      window.location.href = "../index.html";
+    }
+  </script>
 </body>
 </html>

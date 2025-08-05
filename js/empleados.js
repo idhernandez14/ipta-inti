@@ -1,217 +1,142 @@
-// empleados.js - CRUD completo con backend PHP y MySQL para IPTA-INTI
-// Incluye buscador, protección de sesión, validaciones y control de errores
+// empleados.js - Módulo Empleados IPTA-INTI
 
-const API_URL = "http://localhost/proyecto-ipta-inti/backend/empleados.php";
+const API_URL = window.location.origin + "/proyecto-ipta-inti/backend/empleados.php";
+const form = document.getElementById("formEmpleado");
+const tablaBody = document.getElementById("cuerpoTablaEmpleados");
+const buscadorInput = document.getElementById("buscadorInput");
+const feedback = document.getElementById("mensajeFeedback");
 
-// Variables globales de edición
-let editando = false;
-let idEmpleadoEditar = null;
-let empleadosCache = []; // Caché de empleados para el buscador
+// Escapar HTML
+function escapeHtml(text) {
+  return text.replace(/[&<>"']/g, match => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+  }[match]));
+}
 
-document.addEventListener("DOMContentLoaded", () => {
-  // Protección de sesión y roles
-  if (typeof inicializarSesion === "function") {
-    inicializarSesion();
+// Mostrar mensajes de éxito o error
+function mostrarMensaje(msg, tipo = "exito") {
+  feedback.textContent = msg;
+  feedback.className = "mensaje-feedback " + tipo;
+  feedback.style.display = "block";
+  setTimeout(() => { feedback.style.display = "none"; }, 4000);
+}
+
+// Cargar empleados desde PHP
+async function cargarEmpleados() {
+  tablaBody.innerHTML = `<tr><td colspan="5">Cargando empleados...</td></tr>`;
+  try {
+    const res = await fetch(API_URL);
+    const empleados = await res.json();
+
+    if (!Array.isArray(empleados) || empleados.length === 0) {
+      tablaBody.innerHTML = `<tr><td colspan="5">No hay empleados registrados.</td></tr>`;
+      return;
+    }
+
+    tablaBody.innerHTML = "";
+    empleados.forEach(e => {
+      const fila = document.createElement("tr");
+      fila.innerHTML = `
+        <td>${e.idEmpleado}</td>
+        <td>${escapeHtml(e.nombre)}</td>
+        <td>${escapeHtml(e.cargo)}</td>
+        <td>$${parseInt(e.salario).toLocaleString()}</td>
+        <td>
+          <button class="btn-editar" onclick="editarEmpleado(${e.idEmpleado})">🖊️</button>
+          <button class="btn-eliminar" onclick="eliminarEmpleado(${e.idEmpleado})">🗑️</button>
+        </td>
+      `;
+      tablaBody.appendChild(fila);
+    });
+  } catch (err) {
+    mostrarMensaje("Error al cargar empleados", "error");
+    tablaBody.innerHTML = `<tr><td colspan="5">Error al cargar empleados.</td></tr>`;
+  }
+}
+
+// Guardar o actualizar empleado
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const nombre = form.nombreEmpleado.value.trim();
+  const cargo = form.cargoEmpleado.value.trim();
+  const salario = parseFloat(form.salarioEmpleado.value);
+
+  if (isNaN(salario) || salario <= 0) {
+    mostrarMensaje("Salario no válido", "error");
+    return;
   }
 
-  // Mostrar empleados al cargar
-  mostrarEmpleados();
+  const datos = {
+    idEmpleado: form.idEmpleado.value || null,
+    nombre, cargo, salario
+  };
 
-  // Listener para envío de formulario
-  document.getElementById("formEmpleado").addEventListener("submit", function (e) {
-    e.preventDefault();
-    editando ? actualizarEmpleado() : agregarEmpleado();
-  });
+  const btn = form.querySelector("button");
+  btn.disabled = true;
+  btn.textContent = "Guardando...";
+
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(datos)
+    });
+    const r = await res.json();
+
+    if (r.status === "ok") {
+      mostrarMensaje("Empleado guardado correctamente");
+      form.reset();
+      cargarEmpleados();
+    } else {
+      mostrarMensaje("Error al guardar", "error");
+    }
+  } catch (err) {
+    mostrarMensaje("Fallo en la conexión", "error");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Guardar";
+  }
 });
 
-// ==============================
-// Obtener y mostrar empleados
-// ==============================
-function mostrarEmpleados() {
-  fetch(API_URL)
+// Editar empleado
+function editarEmpleado(id) {
+  fetch(API_URL + `?id=${id}`)
     .then(res => res.json())
-    .then(empleados => {
-      empleadosCache = empleados;
-      renderTablaEmpleados(empleados);
-      limpiarFormulario();
-    })
-    .catch(() => {
-      document.getElementById("tablaEmpleados").innerHTML =
-        `<tr><td colspan="7">No se pudo cargar la lista de empleados.</td></tr>`;
+    .then(e => {
+      form.idEmpleado.value = e.idEmpleado;
+      form.nombreEmpleado.value = e.nombre;
+      form.cargoEmpleado.value = e.cargo;
+      form.salarioEmpleado.value = e.salario;
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
 }
 
-// ==============================
-// Renderizar tabla de empleados
-// ==============================
-function renderTablaEmpleados(lista) {
-  const tbody = document.getElementById("tablaEmpleados");
-  tbody.innerHTML = "";
+// Eliminar empleado
+function eliminarEmpleado(id) {
+  if (!confirm("¿Deseas eliminar este empleado?")) return;
 
-  if (!Array.isArray(lista) || lista.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7">No hay empleados registrados.</td></tr>`;
-    return;
-  }
-
-  lista.forEach(emp => {
-    const fila = document.createElement("tr");
-    fila.innerHTML = `
-      <td>${emp.idEmpleado}</td>
-      <td>${escapeHtml(emp.nombre)}</td>
-      <td>${escapeHtml(emp.cargo)}</td>
-      <td>${parseFloat(emp.salario).toLocaleString("es-CO")}</td>
-      <td>${escapeHtml(emp.controlHorarios || "")}</td>
-      <td>${escapeHtml(emp.asignacionTareas || "")}</td>
-      <td>
-        <button onclick="editarEmpleado(
-            ${emp.idEmpleado}, 
-            '${escapeHtml(emp.nombre)}', 
-            '${escapeHtml(emp.cargo)}', 
-            '${emp.salario}', 
-            '${escapeHtml(emp.controlHorarios || "")}', 
-            '${escapeHtml(emp.asignacionTareas || "")}'
-          )" 
-          class="btn" style="background:#D4AF37;color:white;">Editar</button>
-        <button onclick="eliminarEmpleado(${emp.idEmpleado})" class="btn" style="background:#FF6347;color:white;">Eliminar</button>
-      </td>`;
-    tbody.appendChild(fila);
-  });
-}
-
-// ==============================
-// Evitar inyecciones XSS
-// ==============================
-function escapeHtml(text) {
-  if (typeof text !== "string") return "";
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
-
-// ==============================
-// Buscador dinámico
-// ==============================
-function filtrarEmpleados() {
-  const texto = document.getElementById("buscarEmpleado").value.toLowerCase();
-  const filtrados = empleadosCache.filter(emp =>
-    (emp.nombre && emp.nombre.toLowerCase().includes(texto)) ||
-    (emp.cargo && emp.cargo.toLowerCase().includes(texto)) ||
-    (emp.controlHorarios && emp.controlHorarios.toLowerCase().includes(texto)) ||
-    (emp.asignacionTareas && emp.asignacionTareas.toLowerCase().includes(texto))
-  );
-  renderTablaEmpleados(filtrados);
-}
-
-// ==============================
-// Agregar nuevo empleado (POST)
-// ==============================
-function agregarEmpleado() {
-  const nombre = document.getElementById("nombreEmpleado").value.trim();
-  const cargo = document.getElementById("cargoEmpleado").value.trim();
-  const salario = parseFloat(document.getElementById("salarioEmpleado").value);
-  const controlHorarios = document.getElementById("horarioEmpleado").value.trim();
-  const asignacionTareas = document.getElementById("tareaEmpleado").value.trim();
-
-  if (!nombre || !cargo || isNaN(salario) || salario < 0) {
-    alert("Por favor, completa los campos obligatorios correctamente.");
-    return;
-  }
-
-  fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nombre, cargo, salario, controlHorarios, asignacionTareas }),
-  })
+  fetch(API_URL + `?eliminar=${id}`)
     .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        mostrarEmpleados();
-        limpiarFormulario();
+    .then(r => {
+      if (r.status === "ok") {
+        mostrarMensaje("Empleado eliminado");
+        cargarEmpleados();
       } else {
-        alert("Error al guardar: " + (data.error || "Desconocido"));
-      }
-    })
-    .catch(() => alert("Error de conexión con el servidor."));
-}
-
-// ==============================
-// Eliminar empleado (DELETE)
-// ==============================
-window.eliminarEmpleado = function (idEmpleado) {
-  if (!confirm("¿Seguro que quieres eliminar este empleado?")) return;
-  fetch(API_URL, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ idEmpleado }),
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) mostrarEmpleados();
-      else alert("No se pudo eliminar el empleado.");
-    });
-};
-
-// ==============================
-// Preparar formulario para editar
-// ==============================
-window.editarEmpleado = function (id, nombre, cargo, salario, controlHorarios, asignacionTareas) {
-  editando = true;
-  idEmpleadoEditar = id;
-  document.getElementById("nombreEmpleado").value = nombre;
-  document.getElementById("cargoEmpleado").value = cargo;
-  document.getElementById("salarioEmpleado").value = salario;
-  document.getElementById("horarioEmpleado").value = controlHorarios;
-  document.getElementById("tareaEmpleado").value = asignacionTareas;
-  document.querySelector("#formEmpleado .btn").textContent = "Actualizar Empleado";
-}
-
-// ==============================
-// Actualizar empleado (PUT)
-// ==============================
-function actualizarEmpleado() {
-  const nombre = document.getElementById("nombreEmpleado").value.trim();
-  const cargo = document.getElementById("cargoEmpleado").value.trim();
-  const salario = parseFloat(document.getElementById("salarioEmpleado").value);
-  const controlHorarios = document.getElementById("horarioEmpleado").value.trim();
-  const asignacionTareas = document.getElementById("tareaEmpleado").value.trim();
-
-  if (!nombre || !cargo || isNaN(salario) || salario < 0) {
-    alert("Por favor, completa los campos obligatorios correctamente.");
-    return;
-  }
-
-  fetch(API_URL, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      idEmpleado: idEmpleadoEditar,
-      nombre,
-      cargo,
-      salario,
-      controlHorarios,
-      asignacionTareas
-    }),
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        mostrarEmpleados();
-        limpiarFormulario();
-      } else {
-        alert("Error al actualizar el empleado.");
+        mostrarMensaje("Error al eliminar", "error");
       }
     });
 }
 
-// ==============================
-// Limpiar formulario
-// ==============================
-function limpiarFormulario() {
-  editando = false;
-  idEmpleadoEditar = null;
-  document.getElementById("formEmpleado").reset();
-  document.querySelector("#formEmpleado .btn").textContent = "Registrar Empleado";
-}
+// Filtro de búsqueda
+buscadorInput.addEventListener("keyup", () => {
+  const texto = buscadorInput.value.toLowerCase();
+  const filas = tablaBody.getElementsByTagName("tr");
+  for (let fila of filas) {
+    const visible = fila.textContent.toLowerCase().includes(texto);
+    fila.style.display = visible ? "" : "none";
+  }
+});
+
+// Iniciar módulo
+document.addEventListener("DOMContentLoaded", cargarEmpleados);

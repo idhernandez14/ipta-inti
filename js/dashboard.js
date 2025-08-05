@@ -9,12 +9,16 @@ const colores = {
   turquesa: '#40E0D0'
 };
 
-// === Al cargar el DOM, se solicitan los datos del backend ===
+// === Cargar datos desde el backend cuando el DOM esté listo ===
 document.addEventListener("DOMContentLoaded", () => {
   fetch("../backend/dashboard.php")
     .then(res => res.json())
     .then(data => {
-      // Verifica que cada bloque de datos exista y genera cada componente
+      if (data.error) {
+        mostrarError(data.error);
+        return;
+      }
+
       if (data.ventasSemana) generarGraficoVentas(data.ventasSemana);
       if (data.stockProductos) generarGraficoStock(data.stockProductos);
       if (data.reportes) renderizarTablaReportes(data.reportes);
@@ -22,21 +26,27 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch(err => {
       console.error("❌ Error al cargar datos del dashboard:", err);
+      mostrarError("No se pudo conectar con el servidor.");
     });
 });
+
+// === Mostrar mensaje de error visual ===
+function mostrarError(mensaje) {
+  alert(`⚠️ Error en el dashboard: ${mensaje}`);
+}
 
 // === Gráfico de barras: Ventas por día ===
 function generarGraficoVentas(ventasPorDia) {
   const ctx = document.getElementById("graficoVentas");
   if (!ctx) return;
 
-  const labels = Object.keys(ventasPorDia); // ["Lunes", "Martes", ...]
-  const datos = Object.values(ventasPorDia); // [20000, 35000, ...]
+  const diasOrdenados = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"];
+  const datos = diasOrdenados.map(dia => ventasPorDia[dia] || 0);
 
   new Chart(ctx, {
     type: "bar",
     data: {
-      labels,
+      labels: diasOrdenados.map(d => d.charAt(0).toUpperCase() + d.slice(1)),
       datasets: [{
         label: "Ventas (COP)",
         data: datos,
@@ -94,7 +104,7 @@ function generarGraficoStock(productos) {
   });
 }
 
-// === Renderizar la tabla de ventas recientes ===
+// === Renderizar tabla de ventas recientes ===
 function renderizarTablaVentas(ventas) {
   const tbody = document.getElementById("datosVentas");
   if (!tbody || !Array.isArray(ventas)) return;
@@ -119,7 +129,7 @@ function renderizarTablaVentas(ventas) {
   });
 }
 
-// === Renderizar la tabla de reportes recientes ===
+// === Renderizar tabla de reportes recientes ===
 function renderizarTablaReportes(reportes) {
   const tbody = document.getElementById("datosReportes");
   if (!tbody || !Array.isArray(reportes)) return;
@@ -141,4 +151,3 @@ function renderizarTablaReportes(reportes) {
     tbody.appendChild(fila);
   });
 }
-

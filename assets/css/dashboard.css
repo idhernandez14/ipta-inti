@@ -1,13 +1,13 @@
 /* dashboard.css - Estilos para el módulo Dashboard de IPTA-INTI */
 
-/* Contenedor principal */
+/* Contenido principal */
 .main-content {
   margin-left: 240px; /* Compensación para el sidebar */
   padding: 2.5rem 2rem 1.5rem 2rem;
   min-height: 90vh;
 }
 
-/* Panel principal del dashboard */
+/* Panel principal */
 #dashboardPanel {
   border: 2px solid var(--color-verde);
   max-width: 800px;
@@ -22,44 +22,70 @@
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
-/* Estilos generales para los gráficos (canvas) */
+/* Estilos para los gráficos */
 canvas {
   background: #f7f7f7;
   border-radius: 12px;
   margin-bottom: 2.2rem;
   margin-top: 0.8rem;
   padding: 1rem;
-  box-shadow: 0 0 8px #50c87822; /* Sombra suave en tono verde institucional */
+  box-shadow: 0 0 8px #50c87822; /* Sombra verde institucional */
   max-width: 100%;
 }
 
-/* Tabla de reportes y ventas */
-.tabla-reportes, #tablaVentas table, #tablaReportes table {
+/* Tablas generales */
+table.tabla {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
 }
 
-.tabla-reportes th,
-.tabla-reportes td,
-#tablaVentas th, #tablaVentas td,
-#tablaReportes th, #tablaReportes td {
+table.tabla th,
+table.tabla td {
   border: 1px solid #ddd;
   padding: 0.75rem;
   text-align: left;
 }
 
-.tabla-reportes th {
+table.tabla th {
   background-color: var(--color-verde);
   color: white;
 }
 
-#tablaReportes thead {
+#tablaReportesTabla thead {
   background-color: var(--color-terracota);
   color: white;
 }
 
-/* Responsive design para pantallas pequeñas */
+/* Alternancia de colores en filas */
+table.tabla tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Hover fila */
+table.tabla tbody tr:hover {
+  background-color: #e6f5ed;
+}
+
+/* Botón estándar */
+.btn {
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-secundario {
+  background-color: var(--color-terracota);
+  color: white;
+}
+
+.btn-secundario:hover {
+  background-color: #c65a45;
+}
+
+/* Responsive para pantallas pequeñas */
 @media (max-width: 850px) {
   .main-content {
     margin-left: 0;
@@ -72,5 +98,9 @@ canvas {
 
   .panel {
     padding: 1rem;
+  }
+
+  table.tabla th, table.tabla td {
+    font-size: 0.9rem;
   }
 }

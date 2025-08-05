@@ -1,129 +1,120 @@
-<!-- clientes.html - Gestión de Clientes IPTA-INTI -->
+<!-- clientes.html - Módulo de gestión de clientes IPTA-INTI -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Clientes | IPTA-INTI</title>
-
-  <!-- Estilos -->
   <link rel="stylesheet" href="../assets/css/styles.css">
   <link rel="stylesheet" href="../assets/css/clientes.css">
-
-  <!-- Scripts -->
-  <script src="../js/roles.js" defer></script>
-  <script src="../js/clientes.js" defer></script>
 </head>
 <body>
-
-  <!-- Encabezado superior -->
+  <!-- CABECERA -->
   <header class="top-bar">
     <div class="project-header">
-      <img src="../assets/img/logo-icon.png" alt="Icono IPTA-INTI" class="logo-icon" style="width: 50px;">
+      <img src="../assets/img/logo-icon.png" alt="Logo IPTA-INTI" class="logo-icon" style="width: 50px;">
       <h1 class="project-title">IPTA-INTI</h1>
     </div>
-    <div style="text-align: right; margin-right: 2rem; font-weight: bold;">
-      Usuario: <span id="usuario"></span> | Rol: <span id="rol"></span>
-      <button onclick="cerrarSesion()" class="btn btn-secundario" style="margin-left:1rem;">Cerrar sesión</button>
+    <div style="text-align: right; margin-right: 2rem;">
+      Usuario: <span id="usuarioHeader"></span> | Rol: <span id="rol"></span>
+      <button onclick="cerrarSesion()" class="btn-cerrar-sesion">Cerrar sesión</button>
     </div>
   </header>
 
-  <!-- Sidebar de navegación -->
-  <nav class="sidebar">
+  <!-- SIDEBAR -->
+  <nav class="sidebar" aria-label="Menú lateral de navegación">
     <div class="logo">
-      <img src="../assets/img/logo-inti.png" alt="Logo IPTA-INTI" style="width: 60px;">
+      <img src="../assets/img/logo-inti.png" alt="Logo" style="width: 60px;">
       <h2>IPTA-INTI</h2>
     </div>
     <ul>
       <li><a href="dashboard.html">Inicio</a></li>
-      <li><a href="clientes.html"class="active">Clientes</a></li>
+      <li><a href="clientes.html" class="active">Clientes</a></li>
       <li><a href="ventas.html">Ventas</a></li>
       <li><a href="empleados.html">Empleados</a></li>
       <li><a href="proveedores.html">Proveedores</a></li>
       <li><a href="promociones.html">Promociones</a></li>
       <li><a href="productos.html">Productos</a></li>
       <li><a href="inventario.html">Inventario</a></li>
-      <li><a href="seguridad.html" >Seguridad</a></li>
+      <li><a href="seguridad.html">Seguridad</a></li>
       <li><a href="../index.html">Salir</a></li>
     </ul>
   </nav>
 
-  <!-- Panel principal de clientes -->
+  <!-- CONTENIDO PRINCIPAL -->
   <main class="main-content">
-    <div class="panel" data-role="Administrador,Cajero" id="clientesPanel">
-      <h2>Gestión de Clientes</h2>
+    <div id="clientesPanel" class="panel" data-role="Administrador">
+      <h2 style="color: var(--color-verde);">Gestión de Clientes</h2>
 
-      <!-- Formulario de registro o edición -->
-      <form id="formCliente" style="background: #f9f9f9; text-align:left;" autocomplete="off">
+      <!-- FORMULARIO -->
+      <form id="formCliente" autocomplete="off">
         <input type="hidden" id="idCliente">
-        
-        <label for="nombreCliente">Nombre:</label>
-        <input type="text" id="nombreCliente" class="input" required autocomplete="off">
-        
-        <label for="direccionCliente">Dirección:</label>
-        <input type="text" id="direccionCliente" class="input" autocomplete="off">
-        
-        <label for="telefonoCliente">Teléfono:</label>
-        <input type="text" id="telefonoCliente" class="input" autocomplete="off">
-        
-        <label for="emailCliente">Email:</label>
-        <input type="email" id="emailCliente" class="input" autocomplete="off">
-        
-        <label for="fidelizacionCliente">¿Está en programa de fidelización?</label>
-        <select id="fidelizacionCliente" class="input">
-          <option value="Sí">Sí</option>
-          <option value="No">No</option>
-        </select>
-
-        <!-- Botón de envío -->
-        <button type="submit" class="btn">Registrar Cliente</button>
-
-        <!-- Mensaje de error o éxito -->
-        <div id="mensajeCliente" style="color:#FF6347;margin-top:8px;display:none;"></div>
+        <div class="form-group">
+          <label for="nombreCliente">Nombre completo:</label>
+          <input type="text" id="nombreCliente" required placeholder="Ej. Ana Torres">
+        </div>
+        <div class="form-group">
+          <label for="telefonoCliente">Teléfono:</label>
+          <input type="tel" id="telefonoCliente" required pattern="[0-9]{7,10}" placeholder="Ej. 3112345678">
+        </div>
+        <div class="form-group">
+          <label for="emailCliente">Email:</label>
+          <input type="email" id="emailCliente" required placeholder="Ej. ejemplo@correo.com">
+        </div>
+        <div class="form-group">
+          <label for="direccionCliente">Dirección:</label>
+          <input type="text" id="direccionCliente" placeholder="Ej. Calle 45 #10-25">
+        </div>
+        <button type="submit" class="btn btn-guardar">Guardar</button>
       </form>
 
-      <!-- Tabla de clientes registrados -->
-      <h3 style="margin-top: 2rem;">Lista de Clientes</h3>
+      <!-- FEEDBACK -->
+      <div id="mensajeFeedback" class="mensaje-feedback"></div>
 
-      <!-- Buscador dinámico -->
-      <div style="margin-bottom: 1rem; display: flex; justify-content: flex-end;">
-        <input 
-          type="text" 
-          id="buscarCliente" 
-          class="input" 
-          placeholder="Buscar cliente por nombre, dirección, teléfono, email..."
-          style="max-width: 320px;"
-          oninput="filtrarClientes()"
-        >
+      <!-- BUSCADOR -->
+      <div id="buscarCliente">
+        <label for="buscadorInput">Buscar cliente:</label>
+        <input type="text" id="buscadorInput" placeholder="Filtrar por nombre, email o dirección...">
       </div>
 
-      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+      <!-- TABLA -->
+      <table class="tabla-clientes" aria-label="Listado de clientes">
         <thead>
-          <tr style="background: var(--color-verde); color: white;">
+          <tr>
             <th>ID</th>
             <th>Nombre</th>
-            <th>Dirección</th>
             <th>Teléfono</th>
             <th>Email</th>
-            <th>Fidelización</th>
+            <th>Dirección</th>
             <th>Acciones</th>
           </tr>
         </thead>
-        <tbody id="tablaClientes">
-          <!-- Filas generadas dinámicamente -->
+        <tbody id="cuerpoTablaClientes">
+          <!-- Llenado dinámico desde JS -->
         </tbody>
       </table>
     </div>
   </main>
 
-  <!-- Footer -->
+  <!-- PIE DE PÁGINA -->
   <footer class="bottom-bar">
-    <p>© 2025 Iván David Hernández - Proyecto IPTA-INTI</p>
-    <div class="footer-icons">
-      <img src="../assets/img/footer-icon-1.png" alt="Icono decorativo 1" style="width: 30px;">
-      <img src="../assets/img/footer-icon-2.png" alt="Icono decorativo 2" style="width: 30px;">
-    </div>
+    <p>&copy; 2025 Iván David Hernández - Proyecto IPTA-INTI</p>
   </footer>
 
+  <!-- SCRIPTS -->
+  <script src="../js/roles.js"></script>
+  <script src="../js/clientes.js"></script>
+  <script>
+    // Mostrar usuario logueado
+    document.addEventListener("DOMContentLoaded", () => {
+      const usuario = localStorage.getItem("usuario") || "Usuario";
+      document.getElementById("usuarioHeader").textContent = usuario;
+    });
+
+    // Redirigir al cerrar sesión
+    function cerrarSesion() {
+      window.location.href = "../index.html";
+    }
+  </script>
 </body>
 </html>

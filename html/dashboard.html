@@ -21,19 +21,19 @@
       <h1 class="project-title">IPTA-INTI</h1>
     </div>
     <div style="text-align: right; margin-right: 2rem; font-weight: bold;">
-      Usuario: <span id="usuario"></span> | Rol: <span id="rol"></span>
+      Usuario: <span id="usuarioHeader"></span> | Rol: <span id="rol"></span>
       <button onclick="cerrarSesion()" class="btn btn-secundario" style="margin-left:1rem;">Cerrar sesión</button>
     </div>
   </header>
 
   <!-- SIDEBAR -->
-  <nav class="sidebar">
+  <nav class="sidebar" aria-label="Menú de navegación principal">
     <div class="logo">
-      <img src="../assets/img/logo-inti.png" alt="Logo" style="width: 60px;">
+      <img src="../assets/img/logo-inti.png" alt="Logo IPTA-INTI" style="width: 60px;">
       <h2>IPTA-INTI</h2>
     </div>
     <ul>
-      <li><a href="dashboard.html"class="active">Inicio</a></li>
+      <li><a href="dashboard.html" class="active">Inicio</a></li>
       <li><a href="clientes.html">Clientes</a></li>
       <li><a href="ventas.html">Ventas</a></li>
       <li><a href="empleados.html">Empleados</a></li>
@@ -41,7 +41,7 @@
       <li><a href="promociones.html">Promociones</a></li>
       <li><a href="productos.html">Productos</a></li>
       <li><a href="inventario.html">Inventario</a></li>
-      <li><a href="seguridad.html" >Seguridad</a></li>
+      <li><a href="seguridad.html">Seguridad</a></li>
       <li><a href="../index.html">Salir</a></li>
     </ul>
   </nav>
@@ -51,7 +51,7 @@
     <div class="panel" data-role="Administrador" id="dashboardPanel">
       <h2 style="color: var(--color-verde);">Gestión de Dashboard</h2>
       <p><strong>Módulo activo:</strong> Dashboard</p>
-      <p>Bienvenido, <strong><span id="usuario"></span></strong>.</p>
+      <p>Bienvenido, <strong><span id="usuarioMain"></span></strong>.</p>
 
       <!-- GRÁFICO VENTAS -->
       <h3 style="color: var(--color-terracota); margin-top: 2rem;">Ventas de la Semana</h3>
@@ -60,7 +60,7 @@
       </div>
 
       <!-- GRÁFICO STOCK -->
-      <h3 style="color: var(--color-dorado); margin-top: 2rem;">Stock de Productos</h3>
+      <h3 style="color: var(--color-dorado); margin-top: 2rem;">Stock de Productos (Top 5)</h3>
       <canvas id="graficoStock" height="100"></canvas>
 
       <!-- SELECTOR DE TABLAS -->
@@ -75,7 +75,7 @@
       <!-- TABLA DE VENTAS -->
       <section id="tablaVentas" style="margin-top: 1.5rem;">
         <h3>Tabla de Ventas</h3>
-        <table style="width: 100%; border-collapse: collapse;">
+        <table class="tabla" aria-label="Tabla de Ventas">
           <thead style="background: var(--color-verde); color: white;">
             <tr>
               <th>ID</th>
@@ -91,10 +91,10 @@
         </table>
       </section>
 
-      <!-- TABLA DE REPORTES (única y válida) -->
+      <!-- TABLA DE REPORTES -->
       <section id="tablaReportesTabla" style="margin-top: 2rem; display: none;">
         <h3>Tabla de Reportes</h3>
-        <table style="width: 100%; border-collapse: collapse;">
+        <table class="tabla" aria-label="Tabla de Reportes">
           <thead style="background: var(--color-terracota); color: white;">
             <tr>
               <th>ID</th>
@@ -123,12 +123,18 @@
   <script src="../js/roles.js"></script>
   <script src="../js/dashboard.js"></script>
   <script>
-    // Controla visibilidad entre tabla de ventas y reportes
     function mostrarTablaSeleccionada() {
       const seleccion = document.getElementById("seleccionTabla").value;
       document.getElementById("tablaVentas").style.display = (seleccion === "ventas") ? "block" : "none";
       document.getElementById("tablaReportesTabla").style.display = (seleccion === "reportes") ? "block" : "none";
     }
+
+    // Carga nombre del usuario desde localStorage o sesión
+    document.addEventListener("DOMContentLoaded", () => {
+      const usuario = localStorage.getItem("usuario") || "Usuario";
+      document.getElementById("usuarioHeader").textContent = usuario;
+      document.getElementById("usuarioMain").textContent = usuario;
+    });
   </script>
 </body>
 </html>

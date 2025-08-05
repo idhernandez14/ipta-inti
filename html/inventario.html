@@ -1,32 +1,29 @@
-<!-- inventario.html - Gestión de Inventario IPTA-INTI -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inventario | IPTA-INTI</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
   <link rel="stylesheet" href="../assets/css/inventario.css">
-  <script src="../js/roles.js" defer></script>
-  <script src="../js/inventario.js" defer></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <!-- HEADER -->
+  <!-- CABECERA -->
   <header class="top-bar">
     <div class="project-header">
-      <img src="../assets/img/logo-icon.png" alt="Icono IPTA-INTI" class="logo-icon" style="width: 50px;">
+      <img src="../assets/img/logo-icon.png" alt="Logo IPTA-INTI" class="logo-icon" style="width: 50px;">
       <h1 class="project-title">IPTA-INTI</h1>
     </div>
-    <!-- Usuario y rol actual -->
-    <div style="text-align: right; margin-right: 2rem; font-weight: bold;">
-      Usuario: <span id="usuario"></span> | Rol: <span id="rol"></span>
-      <button onclick="cerrarSesion()" class="btn btn-secundario" style="margin-left:1rem;">Cerrar sesión</button>
+    <div style="text-align: right; margin-right: 2rem;">
+      Usuario: <span id="usuarioHeader"></span> | Rol: <span id="rol"></span>
+      <button onclick="cerrarSesion()" class="btn-cerrar-sesion">Cerrar sesión</button>
     </div>
   </header>
+
   <!-- SIDEBAR -->
   <nav class="sidebar">
     <div class="logo">
-      <img src="../assets/img/logo-inti.png" alt="Logo IPTA-INTI" style="width: 60px;">
+      <img src="../assets/img/logo-inti.png" alt="Logo" style="width: 60px;">
       <h2>IPTA-INTI</h2>
     </div>
     <ul>
@@ -37,70 +34,88 @@
       <li><a href="proveedores.html">Proveedores</a></li>
       <li><a href="promociones.html">Promociones</a></li>
       <li><a href="productos.html">Productos</a></li>
-      <li><a href="inventario.html"class="active" >Inventario</a></li>
-      <li><a href="seguridad.html" >Seguridad</a></li>
+      <li><a href="inventario.html" class="active">Inventario</a></li>
+      <li><a href="seguridad.html">Seguridad</a></li>
       <li><a href="../index.html">Salir</a></li>
     </ul>
   </nav>
-  <!-- PANEL DE INVENTARIO -->
+
+  <!-- CONTENIDO PRINCIPAL -->
   <main class="main-content">
-    <!-- Solo el Bodeguero o quien definas puede ver esto -->
-    <div class="panel" data-role="Bodeguero" id="inventarioPanel">
-      <h2>Gestión de Inventario</h2>
-      <!-- Control de stock -->
-      <form id="formInventario" class="panel" style="background: #f9f9f9; text-align:left;">
-        <label for="producto">Nombre del producto:</label>
-        <input type="text" id="producto" class="input" required>
-        <label for="tipoMovimiento">Tipo de movimiento:</label>
-        <select id="tipoMovimiento" class="input">
-          <option value="entrada">Entrada</option>
-          <option value="salida">Salida</option>
-        </select>
-        <label for="cantidadMovimiento">Cantidad:</label>
-        <input type="number" id="cantidadMovimiento" class="input" min="1" required>
-        <button type="submit" class="btn">Registrar Movimiento</button>
+    <div id="inventarioPanel" class="panel" data-role="Administrador">
+      <h2 style="color: var(--color-verde);">Gestión de Inventario</h2>
+
+      <!-- FORMULARIO -->
+      <form id="formInventario" autocomplete="off">
+        <input type="hidden" id="idInventario" />
+
+        <div class="form-group">
+          <label for="productoInventario">Producto:</label>
+          <input type="text" id="productoInventario" required placeholder="Nombre del producto" />
+        </div>
+
+        <div class="form-group">
+          <label for="cantidadInventario">Cantidad:</label>
+          <input type="number" id="cantidadInventario" required min="1" placeholder="Cantidad ingresada" />
+        </div>
+
+        <div class="form-group">
+          <label for="tipoMovimiento">Tipo de movimiento:</label>
+          <select id="tipoMovimiento" required>
+            <option value="">Seleccione</option>
+            <option value="entrada">Entrada</option>
+            <option value="salida">Salida</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-guardar">Guardar</button>
       </form>
-      <!-- Filtros avanzados y exportar -->
-      <div style="display:flex; gap:1rem; align-items:center; margin: 1.5rem 0;">
-        <input type="date" id="filtroFecha" class="input" style="max-width:160px;">
-        <input type="number" id="filtroCantidad" class="input" placeholder="Cantidad mínima" min="1" style="max-width:160px;">
-        <button onclick="filtrarAvanzado()" class="btn" style="background:#D4AF37;">Filtrar</button>
-        <button onclick="descargarExcel()" class="btn" style="background:#50C878;">Descargar Excel</button>
+
+      <!-- FEEDBACK -->
+      <div id="mensajeFeedback" class="mensaje-feedback"></div>
+
+      <!-- BUSCADOR -->
+      <div id="buscarInventario">
+        <label for="buscadorInput">Buscar en inventario:</label>
+        <input type="text" id="buscadorInput" placeholder="Filtrar por producto..." />
       </div>
-      <!-- Buscador de inventario -->
-      <div style="margin-bottom: 1rem; display: flex; justify-content: flex-end;">
-        <input
-          type="text"
-          id="buscarInventario"
-          class="input"
-          placeholder="Buscar por producto o tipo de movimiento..."
-          style="max-width: 320px;"
-          oninput="filtrarInventario()"
-        >
-      </div>
-      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+
+      <!-- TABLA -->
+      <table class="tabla-inventario" aria-label="Listado de movimientos de inventario">
         <thead>
-          <tr style="background: var(--color-verde); color: white;">
+          <tr>
+            <th>ID</th>
             <th>Producto</th>
-            <th>Movimiento</th>
             <th>Cantidad</th>
-            <th>Stock actual</th>
+            <th>Tipo</th>
+            <th>Fecha</th>
             <th>Acciones</th>
           </tr>
         </thead>
-        <tbody id="tablaInventario">
-          <!-- Generado con JS -->
+        <tbody id="cuerpoTablaInventario">
+          <!-- Se llena dinámicamente -->
         </tbody>
       </table>
     </div>
   </main>
-  <!-- FOOTER -->
+
+  <!-- PIE -->
   <footer class="bottom-bar">
-    <p>© 2025 Iván David Hernández - Proyecto IPTA-INTI</p>
-    <div class="footer-icons">
-      <img src="../assets/img/footer-icon-1.png" alt="Icono decorativo 1" style="width: 30px;">
-      <img src="../assets/img/footer-icon-2.png" alt="Icono decorativo 2" style="width: 30px;">
-    </div>
+    <p>&copy; 2025 Iván David Hernández - Proyecto IPTA-INTI</p>
   </footer>
+
+  <!-- SCRIPTS -->
+  <script src="../js/roles.js"></script>
+  <script src="../js/inventario.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const usuario = localStorage.getItem("usuario") || "Usuario";
+      document.getElementById("usuarioHeader").textContent = usuario;
+    });
+
+    function cerrarSesion() {
+      window.location.href = "../index.html";
+    }
+  </script>
 </body>
 </html>

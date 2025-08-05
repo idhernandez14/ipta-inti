@@ -6,7 +6,146 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;:root {
+  --color-terracota: #e2725b;
+  --color-dorado: #d4af37;
+  --color-verde: #50c878;
+  --color-turquesa: #40e0d0;
+  --color-negro: #000000;
+  --color-gris: #e0e0e0;
+  --color-error: #ff6347;
+  --color-fondo: #fdfdfd;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background-color: var(--color-fondo);
+  color: var(--color-negro);
+  display: flex;
   align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.login-panel {
+  background-color: white;
+  border: 2px solid var(--color-verde);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(0,0,0,0.05);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.logo-login {
+  width: 80px;
+  margin-bottom: 1rem;
+}
+
+.login-panel h2 {
+  margin-bottom: 1.5rem;
+  color: var(--color-verde);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: bold;
+  color: var(--color-negro);
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.btn-login,
+.btn-login-directo {
+  width: 100%;
+  padding: 0.7rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--color-verde);
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-login:hover,
+.btn-login-directo:hover {
+  background-color: #3a9e61;
+}
+
+.btn-login-directo {
+  background-color: var(--color-dorado);
+  color: black;
+  margin-top: 0.8rem;
+}
+
+.btn-login-directo:hover {
+  background-color: #c9a329;
+}
+
+.mensaje-feedback {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  display: none;
+  font-weight: bold;
+}
+
+.mensaje-feedback.exito {
+  background-color: #e0f9e6;
+  color: var(--color-verde);
+  border: 1px solid var(--color-verde);
+}
+
+.mensaje-feedback.error {
+  background-color: #ffe7e3;
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-panel {
+    padding: 1.2rem;
+  }
+
+  .form-group input,
+  .form-group select {
+    font-size: 0.95rem;
+  }
+
+  .btn-login,
+  .btn-login-directo {
+    font-size: 0.95rem;
+  }
+}
+
   background: var(--glass-bg);
 }
 

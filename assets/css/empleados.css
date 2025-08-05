@@ -1,39 +1,151 @@
-/* empleados.css - Estilos para módulo de empleados IPTA-INTI */
-#empleadosPanel .panel {
-  background: #f9f9f9;
+/* empleados.css - Estilos del módulo Empleados IPTA-INTI */
+
+#empleadosPanel {
+  max-width: 900px;
+  margin: auto;
+  padding: 2rem;
+  border: 2px solid var(--color-verde);
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
-#empleadosPanel table th {
-  background: var(--color-verde);
+
+/* Formularios */
+#empleadosPanel .form-group {
+  margin-bottom: 1rem;
+}
+
+#empleadosPanel label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  color: var(--color-verde);
+}
+
+#empleadosPanel input {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+/* Botón guardar */
+.btn-guardar {
+  background-color: var(--color-verde);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-guardar:hover {
+  background-color: #3a9e61;
+}
+
+/* Feedback visual */
+.mensaje-feedback {
+  margin-top: 1rem;
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  display: none;
+  font-weight: bold;
+}
+
+.mensaje-feedback.exito {
+  background-color: #e2f9ed;
+  color: var(--color-verde);
+  border: 1px solid var(--color-verde);
+}
+
+.mensaje-feedback.error {
+  background-color: #ffe6e3;
+  color: var(--color-terracota);
+  border: 1px solid var(--color-terracota);
+}
+
+/* Buscador */
+#buscarEmpleado {
+  margin: 2rem 0 1rem;
+}
+
+#buscarEmpleado input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* Tabla */
+.tabla-empleados {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.tabla-empleados th,
+.tabla-empleados td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.tabla-empleados th {
+  background-color: var(--color-dorado);
+  color: black;
+}
+
+.tabla-empleados tbody tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+.tabla-empleados tbody tr:hover {
+  background-color: #e2f9ed;
+}
+
+/* Botones */
+.btn-editar,
+.btn-eliminar {
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.3rem;
+}
+
+.btn-editar {
+  background-color: var(--color-verde);
   color: white;
 }
-#empleadosPanel table td {
-  text-align: center;
+
+.btn-editar:hover {
+  background-color: #319657;
 }
-#empleadosPanel .btn {
-  background: var(--color-verde);
-  color: #fff;
+
+.btn-eliminar {
+  background-color: var(--color-terracota);
+  color: white;
 }
-#empleadosPanel .btn:hover {
-  background: var(--color-dorado);
-  color: #003220;
+
+.btn-eliminar:hover {
+  background-color: #b33c2c;
 }
-@media (max-width: 700px) {
-  #empleadosPanel table, #empleadosPanel th, #empleadosPanel td {
-    font-size: 0.97em;
+
+/* Responsive */
+@media (max-width: 768px) {
+  #empleadosPanel {
+    padding: 1rem;
   }
-}
-/* Estilo para el buscador de empleados */
-#buscarEmpleado {
-  padding: 0.5em 1em;
-  border-radius: 8px;
-  border: 1.5px solid var(--color-verde);
-  outline: none;
-  font-size: 1em;
-  margin-bottom: 8px;
-  background: #fff;
-  transition: border 0.2s, box-shadow 0.2s;
-}
-#buscarEmpleado:focus {
-  border: 1.5px solid var(--color-dorado);
-  box-shadow: 0 0 0 2px #d4af3740;
+
+  .tabla-empleados th, .tabla-empleados td {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
 }

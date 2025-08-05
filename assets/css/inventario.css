@@ -1,58 +1,152 @@
-/* inventario.css - Estilos para módulo de inventario IPTA-INTI */
-#inventarioPanel .panel {
-  background: #f9f9f9;
+/* inventario.css - Estilos del módulo Inventario IPTA-INTI */
+
+#inventarioPanel {
+  max-width: 900px;
+  margin: auto;
+  padding: 2rem;
+  border: 2px solid var(--color-verde);
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
-#inventarioPanel table th {
-  background: var(--color-verde);
+
+/* Formulario */
+#inventarioPanel .form-group {
+  margin-bottom: 1rem;
+}
+
+#inventarioPanel label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  color: var(--color-verde);
+}
+
+#inventarioPanel input,
+#inventarioPanel select {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+/* Botón guardar */
+.btn-guardar {
+  background-color: var(--color-verde);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-guardar:hover {
+  background-color: #3a9e61;
+}
+
+/* Feedback */
+.mensaje-feedback {
+  margin-top: 1rem;
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  display: none;
+  font-weight: bold;
+}
+
+.mensaje-feedback.exito {
+  background-color: #e2f9ed;
+  color: var(--color-verde);
+  border: 1px solid var(--color-verde);
+}
+
+.mensaje-feedback.error {
+  background-color: #ffe6e3;
+  color: var(--color-terracota);
+  border: 1px solid var(--color-terracota);
+}
+
+/* Buscador */
+#buscarInventario {
+  margin: 2rem 0 1rem;
+}
+
+#buscarInventario input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* Tabla */
+.tabla-inventario {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.tabla-inventario th,
+.tabla-inventario td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.tabla-inventario th {
+  background-color: var(--color-dorado);
+  color: black;
+}
+
+.tabla-inventario tbody tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+.tabla-inventario tbody tr:hover {
+  background-color: #e2f9ed;
+}
+
+/* Botones */
+.btn-editar,
+.btn-eliminar {
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.3rem;
+}
+
+.btn-editar {
+  background-color: var(--color-verde);
   color: white;
 }
-#inventarioPanel table td {
-  text-align: center;
+
+.btn-editar:hover {
+  background-color: #319657;
 }
-#inventarioPanel .btn {
-  background: var(--color-verde);
-  color: #fff;
+
+.btn-eliminar {
+  background-color: var(--color-terracota);
+  color: white;
 }
-#inventarioPanel .btn:hover {
-  background: var(--color-dorado);
-  color: #003220;
+
+.btn-eliminar:hover {
+  background-color: #b33c2c;
 }
-@media (max-width: 700px) {
-  #inventarioPanel table, #inventarioPanel th, #inventarioPanel td {
-    font-size: 0.97em;
+
+/* Responsive */
+@media (max-width: 768px) {
+  #inventarioPanel {
+    padding: 1rem;
   }
-}
-/* Estilo para el buscador de inventario */
-#buscarInventario {
-  padding: 0.5em 1em;
-  border-radius: 8px;
-  border: 1.5px solid var(--color-verde);
-  outline: none;
-  font-size: 1em;
-  margin-bottom: 8px;
-  background: #fff;
-  transition: border 0.2s, box-shadow 0.2s;
-}
-#buscarInventario:focus {
-  border: 1.5px solid var(--color-dorado);
-  box-shadow: 0 0 0 2px #d4af3740;
-}
-#inventarioPanel .btn[style*="#FF6347"] {
-  border: 1.5px solid #FF6347;
-}
-#inventarioPanel .btn[style*="#D4AF37"] {
-  border: 1.5px solid #D4AF37;
-}
-#inventarioPanel td strong {
-  font-weight: bold;
-  letter-spacing: 0.02em;
-}
-#inventarioPanel td .stock-bajo {
-  color: #FF6347 !important;
-  font-weight: bold;
-  animation: parpadeoStock 1.2s infinite alternate;
-}
-@keyframes parpadeoStock {
-  0% { opacity: 1; }
-  100% { opacity: 0.6; }
+
+  .tabla-inventario th, .tabla-inventario td {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
 }
